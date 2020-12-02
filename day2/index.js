@@ -25,7 +25,7 @@ function _check(entry) {
 }
 
 async function main() {
-  await fs.readFile("./day2data", "utf8", (err, data) => {
+  await fs.readFile("day2/data", "utf8", (err, data) => {
     if (err) {
       console.error(err);
       return;
