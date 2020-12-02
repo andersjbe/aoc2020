@@ -1,27 +1,22 @@
 const fs = require("fs");
 
 function checkPasswords(passwords) {
-  const passed = passwords.filter(password => _check(password));
+  const passed = passwords.filter((password) => _check(password));
   return passed.length;
 }
 
 function _check(entry) {
-    let [times, char, password] = entry.split(' ');
-    char = char[0];
-    times = times.split('-').map(time => Number(time));
+  let [times, char, password] = entry.split(" ");
+  char = char[0];
+  const [pos1, pos2] = times.split("-").map((time) => Number(time));
 
-    let count = 0;
-    for (let i=0; i<password.length; i++) {
-        if (password[i] === char) {
-            count++;
-        }
-    }
-
-    if (count >= times[0] && count <= times[1]) {
-        return true;
-    } else {
-        return false
-    }
+  if (password[pos1-1] === char && password[pos2-1] === char) {
+    return false;
+  } else if (password[pos1-1] === char || password[pos2-1] === char) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 async function main() {
@@ -31,9 +26,10 @@ async function main() {
       return;
     }
 
+    // const entries = ["1-3 a: abcde", "1-3 b: cdefg", "2-9 c: ccccccccc"];
     const entries = data.split('\n');
     console.log(checkPasswords(entries));
   });
 }
 
-main()
+main();
