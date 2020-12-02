@@ -1,9 +1,11 @@
 function findEntryProduct(report) {
   for (let i = 0; i < report.length; i++) {
     for (let j = i + 1; j < report.length; j++) {
-      if (report[i] + report[j] === 2020) {
-        return report[i] * report[j];
-      }
+        for(let k = j + 1; k<report.length; k++) {
+            if (report[i] + report[j] + report[k] === 2020) {
+                return report[i] * report[j] * report[k];
+            }
+        }
     }
   }
 }
