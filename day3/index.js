@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function countTrees(lines) {
+function countTrees(lines, right, down) {
     let linePos = 0;
     let charPos = 0;
     let count = 0;
@@ -10,13 +10,12 @@ function countTrees(lines) {
        if (lines[linePos][charPos] === '#') {
            count++;
        }
-       linePos++;
-       charPos += 3;
+       linePos += down;
+       charPos += right;
        if (charPos >= lines[0].length) {
            charPos = charPos - lines[0].length;
        }
    }
-   console.log(count);
    return count;
 }
 
@@ -26,7 +25,7 @@ async function main() {
             console.err(err);
         } else {
             const lines = data.split('\n');
-            console.log(countTrees(lines));
+            console.log(countTrees(lines, 1, 1) * countTrees(lines, 3, 1) * countTrees(lines, 5, 1) * countTrees(lines, 7, 1) * countTrees(lines, 1, 2));
         }
     });
 }
