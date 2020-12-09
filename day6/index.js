@@ -2,15 +2,32 @@ const { count } = require('console');
 const fs = require('fs')
 
 function countGroup(group) {
-    const set = new Set()
+    const sets = [];
 
     group.forEach(str => {
+        const set = new Set();
         for (let i = 0; i<str.length; i++) {
             set.add(str[i]);
         }
+        sets.push(set);
     });
 
-    return set.size;
+    let all = []
+    sets.forEach(set => all = [...all, ...set])
+    const union = new Set(all)
+
+    let count = 0;
+    union.forEach(char => {
+        let res = sets.every(set => set.has(char));
+        if (res) {
+            count++;
+        }
+    });
+    // const intersection = [...sets[0]];
+    // for(let i=1; i<sets.length; i++) {
+    //     intersection.filter()
+    // }
+    return count
 }
 
 function main() {
