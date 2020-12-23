@@ -3,10 +3,14 @@ class Ship {
     this.x = 0;
     this.y = 0;
     this.direction = "east";
+    this.waypoint = {
+      x: 10,
+      y: 1,
+    };
   }
 
   location() {
-    let str = `Facing ${this.direction} at `;
+    let str = ``;
 
     if (this.x >= 0) {
       str = str + `east ${this.x}, `;
@@ -25,25 +29,27 @@ class Ship {
 
   move(distance, direction) {
     if (!direction) {
-      this.move(distance, this.direction);
+      console.log(this.waypoint.x, this.waypoint.y, distance);
+      this.x += this.waypoint.x * distance;
+      this.y += this.waypoint.y * distance;
       return;
     }
 
     switch (direction) {
       case "north":
-        this.y += distance;
+        this.waypoint.y += distance;
         break;
 
       case "east":
-        this.x += distance;
+        this.waypoint.x += distance;
         break;
 
       case "south":
-        this.y -= distance;
+        this.waypoint.y -= distance;
         break;
 
       case "west":
-        this.x -= distance;
+        this.waypoint.x -= distance;
         break;
 
       default:
@@ -52,48 +58,28 @@ class Ship {
   }
 
   turnLeft() {
-    switch (this.direction) {
-      case "east":
-        this.direction = "north";
-        break;
-
-      case "south":
-        this.direction = "east";
-        break;
-
-      case "west":
-        this.direction = "south";
-        break;
-
-      case "north":
-        this.direction = "west";
-        break;
-
-      default:
-        break;
+    [this.waypoint.x, this.waypoint.y] = [this.waypoint.y, this.waypoint.x];
+    if (this.waypoint.x >= 0 && this.waypoint.y >= 0) {
+      this.waypoint.x *= -1;
+    } else if (this.waypoint.x < 0 && this.waypoint.y >= 0) {
+      this.waypoint.y *= -1;
+    } else if (this.waypoint.x < 0 && this.waypoint.y < 0) {
+      this.waypoint.x *= -1;
+    } else if (this.waypoint.x >= 0 && this.waypoint.y < 0) {
+      this.waypoint.y *= -1;
     }
   }
 
   turnRight() {
-    switch (this.direction) {
-      case "east":
-        this.direction = "south";
-        break;
-
-      case "south":
-        this.direction = "west";
-        break;
-
-      case "west":
-        this.direction = "north";
-        break;
-
-      case "north":
-        this.direction = "east";
-        break;
-
-      default:
-        break;
+    [this.waypoint.x, this.waypoint.y] = [this.waypoint.y, this.waypoint.x];
+    if (this.waypoint.x >= 0 && this.waypoint.y >= 0) {
+      this.waypoint.y *= -1;
+    } else if (this.waypoint.x < 0 && this.waypoint.y >= 0) {
+      this.waypoint.x *= -1;
+    } else if (this.waypoint.x < 0 && this.waypoint.y < 0) {
+      this.waypoint.y *= -1;
+    } else if (this.waypoint.x >= 0 && this.waypoint.y < 0) {
+      this.waypoint.x *= -1;
     }
   }
 }
