@@ -1,30 +1,107 @@
 const fs = require("fs");
 
 function getOccupiedSeats(y, x, seats) {
+  //   console.log({ y, x });
   let numOccupied = 0;
-  if (y > 0 && seats[y - 1][x] === "#") {
-    numOccupied += 1;
+
+  //   console.log("NORTH");
+  let north = y - 1;
+  while (north >= 0) {
+    if (seats[north][x] === "#") {
+      numOccupied += 1;
+      break;
+    } else if (seats[north][x] === "L") {
+      break;
+    }
+    north--;
   }
-  if (y < seats.length - 1 && seats[y + 1][x] === "#") {
-    numOccupied += 1;
+
+  //   console.log("NORTHEAST");
+  let ne = [y - 1, x + 1];
+  while (ne[0] >= 0 && ne[1] < seats[y].length) {
+    if (seats[ne[0]][ne[1]] === "#") {
+      numOccupied += 1;
+      break;
+    } else if (seats[ne[0]][ne[1]] === "L") {
+      break;
+    }
+    ne[0] -= 1;
+    ne[1] += 1;
   }
-  if (x > 0 && seats[y][x - 1] === "#") {
-    numOccupied += 1;
+
+  //   console.log("EAST");
+  let east = x + 1;
+  while (east < seats[y].length) {
+    if (seats[y][east] === "#") {
+      numOccupied += 1;
+      break;
+    } else if (seats[y][east] === "L") {
+      break;
+    }
+    east++;
   }
-  if (seats[y][x + 1] === "#") {
-    numOccupied += 1;
+
+  //   console.log("SOUTHEAST");
+  let se = [y + 1, x + 1];
+  while (se[0] < seats.length && se[1] < seats[y].length) {
+    if (seats[se[0]][se[1]] === "#") {
+      numOccupied += 1;
+      break;
+    } else if (seats[se[0]][se[1]] === "L") {
+      break;
+    }
+    se[0] += 1;
+    se[1] += 1;
   }
-  if (y > 0 && x > 0 && seats[y - 1][x - 1] === "#") {
-    numOccupied += 1;
+
+  //   console.log("SOUTH");
+  let south = y + 1;
+  while (south < seats.length) {
+    if (seats[south][x] === "#") {
+      numOccupied += 1;
+      break;
+    } else if (seats[south][x] === "L") {
+      break;
+    }
+    south++;
   }
-  if (y > 0 && seats[y - 1][x + 1] === "#") {
-    numOccupied += 1;
+
+  //   console.log("SOUTHWEST");
+  let sw = [y + 1, x - 1];
+  while (sw[0] < seats.length && sw[1] >= 0) {
+    if (seats[sw[0]][sw[1]] === "#") {
+      numOccupied += 1;
+      break;
+    } else if (seats[sw[0]][sw[1]] === "L") {
+      break;
+    }
+    sw[0] += 1;
+    sw[1] -= 1;
   }
-  if (y < seats.length - 1 && x > 0 && seats[y + 1][x - 1] === "#") {
-    numOccupied += 1;
+
+  //   console.log("WEST");
+  let west = x - 1;
+  while (west >= 0) {
+    if (seats[y][west] === "#") {
+      numOccupied += 1;
+      break;
+    } else if (seats[y][west] === "L") {
+      break;
+    }
+    west--;
   }
-  if (y < seats.length - 1 && seats[y + 1][x + 1] === "#") {
-    numOccupied += 1;
+
+  //   console.log("NORTHWEST");
+  let nw = [y - 1, x - 1];
+  while (nw[0] >= 0 && nw[1] >= 0) {
+    if (seats[nw[0]][nw[1]] === "#") {
+      numOccupied += 1;
+      break;
+    } else if (seats[nw[0]][nw[1]] === "L") {
+      break;
+    }
+    nw[0] -= 1;
+    nw[1] -= 1;
   }
 
   return numOccupied;
@@ -40,7 +117,7 @@ function round(seats) {
       if (seat === "L" && numOccupied === 0) {
         newSeats[i][j] = "#";
       }
-      if (seat === "#" && numOccupied >= 4) {
+      if (seat === "#" && numOccupied >= 5) {
         newSeats[i][j] = "L";
       }
     }
@@ -59,6 +136,7 @@ async function main() {
     // let seats = `L.LL.LL.LL\nLLLLLLL.LL\nL.L.L..L..\nLLLL.LL.LL\nL.LL.LL.LL\nL.LLLLL.LL\n..L.L.....\nLLLLLLLLLL\nL.LLLLLL.L\nL.LLLLL.LL`
     //   .split("\n")
     //   .map((row) => row.split(""));
+
     let seats = data.split("\n").map((row) => row.split(""));
 
     console.log(seats.map((row) => row.join("")).join("\n"));
